@@ -352,26 +352,12 @@ class ImageGraph:
             current_index = stack.pop() 
             current_vertex = self.vertices[current_index] 
 
-            for neighbor_index in current_vertex.edges:
-                neighbor_index = self.vertices[neighbor_index]
-                if not neighbor_index.visited and neighbor_index.color == current_vertex.color:
-                    neighbor_index.visit_and_set_color(color)
-                    stack.push(neighbor_index)
+        for neighbor_index in current_vertex.edges:
+            neighbor_index = self.vertices[neighbor_index]
+            if not neighbor_index.visited and neighbor_index.color == current_vertex.color:
+                neighbor_index.visit_and_set_color(color)
+                stack.push(neighbor_index)
                     
-        for vertex_index, vertex in enumerate(self.vertices):
-            if not vertex.visited:
-                stack.push(vertex_index)
-                vertex.visit_and_set_color(color)  # Mark as visited
-                while not stack.is_empty():
-                    current_index = stack.pop()
-                    current_vertex = self.vertices[current_index]
-
-                    # Explore all neighbors of the current vertex
-                    for neighbor_index in current_vertex.edges:
-                        neighbor_vertex = self.vertices[neighbor_index]
-                        if not neighbor_vertex.visited and neighbor_vertex.color == current_vertex.color:
-                            neighbor_vertex.visit_and_set_color(color)
-                            stack.push(neighbor_index)
         self.print_image()
 
 
@@ -440,23 +426,14 @@ def main():
     implement it to test your code visually.
     """
 
-    # Step 1: Read all input as a single string
     data = sys.stdin.read()
-
-    # Step 2: Create the graph using the `create_graph` function
     image_graph, start_index, color = create_graph(data)
-
-    # Step 3: Print the adjacency matrix in a readable format
     print("Adjacency Matrix:")
     matrix = image_graph.create_adjacency_matrix()
     for row in matrix:
         print(row)
-
-    # Step 4: Run BFS starting from the given start_index with the given color
     print("\nRunning BFS:")
     image_graph.bfs(start_index, color)
-
-    # Step 5: Reset the graph and run DFS starting from the same start_index with the given color
     print("\nRunning DFS:")
     image_graph.dfs(start_index, color)
 
